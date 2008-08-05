@@ -185,6 +185,22 @@ end
 
 #integrate with svn
 Expectations do
+  expect "" do
+    @runtime = $helper.runtime
+    @runtime[:api][:execute_cmd, "svn st"] = [0, ""]
+    
+    processor = MM::Console::Processor.new(@runtime)
+    processor.process("`svn st`")
+  end
+  
+  expect "M   file.txt" do
+    @runtime = $helper.runtime
+    @runtime[:api][:execute_cmd, "svn st"] = [0, "M   file.txt"]
+    
+    processor = MM::Console::Processor.new(@runtime)
+    processor.process("`svn st")
+  end
+  
   expect "revision 2" do
     @runtime = $helper.runtime
     @runtime[:api][:execute_cmd, "svn ci -m 'message'"] = [0, "revision 2"]

@@ -42,10 +42,6 @@ module MM
       def init(klass)
         klass.site = @runtime[:site]
       end
-    
-      def execute_cmd(cmd)
-        %x[#{cmd}]
-      end
     end
   end
 end

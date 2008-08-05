@@ -8,18 +8,20 @@ module MM
       end
       
       def execute(runtime)
+        @transition_injected = false
         if @command =~ SCRIPT_REGEX
           @inside_script = runtime[$1.to_sym] || $1
           cmd = processor(runtime).parse(@inside_script)
           if cmd.is_a?(MM::Console::Transition)
+            @transition_injected = true
             @command.gsub!(SCRIPT_REGEX, cmd.desc)
-          else
-            @inside_script = nil
           end
         end
         exitstatus, output = runtime[:api].execute_cmd(@command)
-        runtime[:revision] = output.to_s.split("\n").last.gsub(/[^0-9]/, '')
-        if exitstatus == 0 && defined?(@inside_script) && !@inside_script.blank?
+        if exitstatus == 0 && @transition_injected
+          if rev = output.to_s.split("\n").last.to_s.gsub(/[^0-9]/, '')
+            runtime[:revision] = rev
+          end
           processor(runtime).process(@inside_script)
         else
           output

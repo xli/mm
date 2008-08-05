@@ -21,10 +21,9 @@ def unquote(value)
 end
 
 def parse(str, runtime)
-  @input = str
+  @input = str.to_s
   tokens = []
-  str = "" if str.nil?
-  scanner = StringScanner.new(str + ' ')
+  scanner = StringScanner.new(@input)
   
   until scanner.eos?
     case
@@ -60,8 +59,8 @@ def parse(str, runtime)
       tokens.push [:IDENTIFIER, unquote(m)]
     when m = scanner.scan(/"([^"]*)"/)
       tokens.push [:IDENTIFIER, unquote(m)]
-    when m = scanner.scan(/`[^`]*`/)
-      m =~ /`([^`]*)`/
+    when m = scanner.scan(/`[^`]*`?/)
+      m =~ /`([^`]*)`?/
       tokens.push [:SYSTEM_CMD, $1]
     when m = scanner.scan(/[\w]+/)
       tokens.push [:IDENTIFIER, m]
