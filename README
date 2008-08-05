@@ -66,7 +66,7 @@ Type "mm" for an up-to-date help doc.
 Author::  Li Xiao <swing1979@gmail.com>
 Requires:: Ruby 1.8.6 or later
 License::  Copyright 2008 by Li Xiao.
-           Released under an Apache License Version 2.0.  See the LICENSE file
+           Released under an MIT-LICENSE.  See the LICENSE file
            included in the distribution.
 
 == Warranty
