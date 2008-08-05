@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/expectation_helper'
 
 Expectations do
-  expect ['#1 first card'] do
+  expect MM::Console::SelectingList.new(['#1 first card'], MM::Console::Card) do
     @runtime = $helper.runtime
     @runtime[:api][:find_cards, {:view => 'My Work'}] = [$helper.card(:number => 1, :name => 'first card', :card_type_name => 'story')]
     processor = MM::Console::Processor.new(@runtime)
@@ -16,7 +16,7 @@ Expectations do
     @runtime[:context].to_s
   end
   
-  expect ['#1 first card'] do
+  expect MM::Console::SelectingList.new(['#1 first card'], MM::Console::Card) do
     @runtime = $helper.runtime
     @runtime[:api][:find_cards, {:view => 'My Work'}] = [$helper.card(:number => 1, :name => 'first card', :card_type_name => 'story')]
     @runtime[:api][:find_card_by_number, 1] = $helper.card(:number => 1, :name => 'first card', :card_type_name => 'story')

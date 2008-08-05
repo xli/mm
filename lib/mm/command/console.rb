@@ -30,7 +30,7 @@ module MM
       end
 
       def do_once
-        prompt = "#{project}> #{@runtime[:context].to_s}> "
+        prompt = "#{project}> #{@runtime[:context]}> "
         input = Readline.readline(prompt, true).strip
         return if input.blank?
         exit(0) if input =~ /^(exit|quit)$/i

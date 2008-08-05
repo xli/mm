@@ -178,14 +178,14 @@ end
 
 #tabs
 Expectations do
-  expect ['My Work'] do
+  expect MM::Console::SelectingList.new(['My Work'], MM::Console::View) do
     @runtime = $helper.runtime
     @runtime[:api][:favorites] = [$helper.favorite(:name => 'My Work', :tab_view => true)]
     processor = MM::Console::Processor.new(@runtime)
     processor.process('tabs')
   end
 
-  expect ['#1 first card'] do
+  expect MM::Console::SelectingList.new(['#1 first card'], MM::Console::Card) do
     @runtime = $helper.runtime
     @runtime[:api][:favorites] = [$helper.favorite(:name => 'My Work', :tab_view => true)]
     @runtime[:api][:find_cards, {:view => 'My Work'}] = [$helper.card(:number => 1, :name => 'first card', :card_type_name => 'story')]
@@ -193,4 +193,35 @@ Expectations do
     processor.process('tabs')
     processor.process('0')
   end
-end  
+end
+
+#variables
+Expectations do
+  expect MM::Console::SelectingList.new([:api, :context], MM::Console::RuntimeVariables::Value) do
+    @runtime = $helper.runtime
+    processor = MM::Console::Processor.new(@runtime)
+    processor.process('variables')
+  end
+
+  expect MM::Console::SelectingList.new([:api, :context], MM::Console::RuntimeVariables::Value) do
+    @runtime = $helper.runtime
+    processor = MM::Console::Processor.new(@runtime)
+    processor.process('v')
+  end
+
+  expect 'value' do
+    @runtime = {}
+    @runtime[:a_name] = 'value'
+    processor = MM::Console::Processor.new(@runtime)
+    processor.process('variables')
+    processor.process('0')
+  end
+end
+
+#selecting list
+Expectations do
+  expect "0) 1\n1) 2\n\n! > Type index number to select item from list.\n " do
+    MM::Console::SelectingList.new(['1', '2'], Class).to_s
+  end
+end
+

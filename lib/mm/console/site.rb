@@ -12,11 +12,8 @@ module MM
       private
       def ask_for_site
         puts  "? > What's your Mingle project url?"
-        puts  "      Example: http://my_login:password@mingle.mycompany.com/projects/project_identifier"
+        puts  "      Example: http://login:password@mingle.company.com/projects/project_identifier"
         print "? >"
-        input = readline.strip
-        # @runtime[:site] = ::MM::Console::Site.new(input)
-        input
       end
     end
   end

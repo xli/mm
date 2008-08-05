@@ -28,6 +28,11 @@ module MM
         end
       end
       
+      def ==(obj)
+        return false unless obj
+        obj.to_s == to_s && obj.instance_variable_get(:@handle_item_class) == @handle_item_class
+      end
+      
       def to_s
         if @list.blank?
           '! > Nothing.'
@@ -37,7 +42,7 @@ module MM
             ret << "#{index}) #{obj}"
           end
           ret << ''
-          ret << "! > Type index number to select item from list."
+          ret << "! > Type index number to select item from list.\n "
           ret.join("\n")
         end
       end
@@ -48,13 +53,19 @@ module MM
         def push(tokens)
         end
         def to_s
+          ''
         end
       end
       
       def initialize(runtime)
         @runtime = runtime
         @runtime[:context] ||= EmptyContext.new
-        @simple_commands = {'tabs' => MM::Console::Tabs.new}
+        @simple_commands = {
+          't' => MM::Console::Tabs.new,
+          'tabs' => MM::Console::Tabs.new,
+          'v' => MM::Console::RuntimeVariables.new,
+          'variables' => MM::Console::RuntimeVariables.new
+        }
       end
       
       def parse(input)

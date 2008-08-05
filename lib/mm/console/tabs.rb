@@ -17,9 +17,7 @@ module MM
     class Tabs
       def execute(runtime)
         if @tabs = runtime[:api].favorites.select{|f|f.tab_view}
-          returning @tabs.collect(&:name) do |tab_names|
-            runtime[:selecting_list] = MM::Console::SelectingList.new(tab_names, MM::Console::View)
-          end
+          runtime[:selecting_list] = MM::Console::SelectingList.new(@tabs.collect(&:name), MM::Console::View)
         end
       end
     end
