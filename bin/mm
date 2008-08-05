@@ -1,0 +1,13 @@
+#!/usr/bin/env ruby
+begin
+  require 'mm'
+rescue LoadError
+  require 'rubygems'
+  require 'mm'
+end
+
+puts "mm, version #{MM::VERSION}"
+puts "Type 'help' for usage"
+unless ARGV == ['-v'] || ARGV == ['--version']
+  MM::Command::Console.new.run
+end

@@ -1,0 +1,193 @@
+class MMLanguageParser
+
+options no_result_var
+
+prechigh
+  right CARD
+  right WITH
+  left MAP_TO
+  left EQUAL
+preclow
+
+token CARD IDENTIFIER NUMBER WITH MAP_TO COMMENT COMMA EQUAL SYSTEM_CMD VIEW CARD_RESOURCE VIEW_RESOURCE
+
+rule
+  # this is the starting rule
+  target
+  : runtime_variable opt_workspace
+    {val[0]}
+  | VIEW identifiers opt_workspace
+    {MM::Console::View.new(val[1].join(' '))}
+  | SYSTEM_CMD opt_workspace
+    {MM::Console::SystemCmd.new(val[0])}
+  | card opt_workspace
+    {val[0]}
+  | transition
+    {MM::Console::Transition.new(val[0])}
+  | command_name CARD_RESOURCE
+    {MM::Console::CardResourceCommand.new(val[0], val[1])}
+  | command_name
+    {MM::Console::NoResourceCommand.new(val[0])}
+  | NUMBER opt_workspace
+    {MM::Console::SelectIndexCommand.new(val[0].to_i)}
+  ;
+  
+  transition
+  : command_name card opt_user_entered_properties opt_comment opt_workspace
+    {{
+      :command => val[0],
+      :card_number => val[1].number,
+      :properties => val[2],
+      :comment => val[3]
+    }}
+  | command_name user_entered_properties COMMENT CARD_RESOURCE
+    {{
+      :command => val[0],
+      :properties => val[1],
+      :comment => val[2],
+      :card_number => val[3].number
+    }}
+  | command_name user_entered_properties CARD_RESOURCE
+    {{
+      :command => val[0],
+      :properties => val[1],
+      :card_number => val[2].number
+    }}
+  | command_name COMMENT CARD_RESOURCE
+    {{
+      :command => val[0],
+      :comment => val[1],
+      :card_number => val[2].number
+    }}
+  ;
+  
+  opt_user_entered_properties
+  : /* optional */                          { nil }
+  | user_entered_properties
+  ;
+
+  opt_comment
+  : /* optional */                          { nil }
+  | COMMENT                                 { val[0] }
+  ;
+
+  opt_attrs
+  : /* optional */                          { nil }
+  | identifiers                             { val[0] }
+  ;
+  
+  opt_workspace
+  : /* optional */                          { nil }
+  | CARD_RESOURCE                           {val[0]}
+  | VIEW_RESOURCE                           {val[0]}
+  ;
+  
+  runtime_variable
+  : IDENTIFIER EQUAL IDENTIFIER             {MM::Console::RuntimeVariable.new(:name => val[0], :value => val[2])}
+  | IDENTIFIER EQUAL NUMBER                 {MM::Console::RuntimeVariable.new(:name => val[0], :value => val[2])}
+  ;
+  
+  command_name
+  : identifiers                             { val[0].join(" ") }
+  ;
+
+  card
+  : CARD NUMBER opt_attrs                   { MM::Console::Card.new(val[1].to_i, val[2]) }
+  ;
+
+  user_entered_properties
+  : WITH properties                         { val[1] }
+  ;
+
+  properties
+  : property                                { [val[0]] }
+  | property COMMA properties               { [val[0]] + val[2] }
+  ;
+
+  property
+  : IDENTIFIER MAP_TO IDENTIFIER            { { :name => val[0], :value => val[2] } }
+  | IDENTIFIER MAP_TO NUMBER                { { :name => val[0], :value => val[2] } }
+  ;
+  
+  identifiers
+  : IDENTIFIER                              { [val[0]] }
+  | IDENTIFIER identifiers                  { [val[0]] + val[1] }
+  ;
+end
+
+----- header ----
+require 'strscan'
+
+---- inner ----
+
+def unquote(value)
+  case value
+  when /^'(.*)'$/ then $1
+  when /^"(.*)"$/ then $1
+  else value
+  end
+end
+
+def parse(str, runtime)
+  @input = str
+  tokens = []
+  str = "" if str.nil?
+  scanner = StringScanner.new(str + ' ')
+  
+  until scanner.eos?
+    case
+    when scanner.scan(/\s+/)
+      # ignore space
+    when m = scanner.scan(/\d+\b/i)
+      tokens.push [:NUMBER, m]
+    when m = scanner.scan(/#\{[^}]*\}/)
+      m =~ /#\{([^}]*)\}/
+      if $1.nil? || $1.empty?
+        raise '\'#{}\' is used to specify variable in the script, must have variable name specified'
+      elsif runtime[$1.to_sym].nil?
+        tokens.push [:IDENTIFIER, m]
+      else
+        tokens.push [:IDENTIFIER, runtime[$1.to_sym]]
+      end
+    when m = scanner.scan(/#\b/i)
+      tokens.push [:CARD, m]
+    when m = scanner.scan(/with\b/i)
+      tokens.push [:WITH, m]
+    when m = scanner.scan(/,/)
+      tokens.push [:COMMA, m]
+    when m = scanner.scan(/=>/)
+      tokens.push [:MAP_TO, m]
+    when m = scanner.scan(/=/)
+      tokens.push [:EQUAL, m]
+    when m = scanner.scan(/view\b/i)
+      tokens.push [:VIEW, m]
+    when m = scanner.scan(/\(([^\)]*)\)/)
+      m =~ /\(([^\)]*)\)/
+      tokens.push [:COMMENT, $1]
+    when m = scanner.scan(/'([^']*)'/)
+      tokens.push [:IDENTIFIER, unquote(m)]
+    when m = scanner.scan(/"([^"]*)"/)
+      tokens.push [:IDENTIFIER, unquote(m)]
+    when m = scanner.scan(/`[^`]*`/)
+      m =~ /`([^`]*)`/
+      tokens.push [:SYSTEM_CMD, $1]
+    when m = scanner.scan(/[\w]+/)
+      tokens.push [:IDENTIFIER, m]
+    else
+      raise "unexpected characters #{scanner.peek(5)}"
+    end
+  end
+
+  runtime[:context].push(tokens)
+  
+  tokens.push [false, false]
+  yyparse(tokens, :each)
+end
+
+def on_error(error_token_id, error_value, value_stack)
+  msg = "Could not parse MML: #{@input}, error_token_id: #{error_token_id}, error_value: #{error_value}"
+  msg << "\nafter #{value_stack.last}" if value_stack.length > 1
+  msg << "\n(This could be due to invalid formatting, including whitespace and indentation."
+  msg << " Please check your MML statement and try again.)"
+  raise ParseError, msg
+end

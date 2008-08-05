@@ -1,0 +1,77 @@
+= MM
+
+Supporting MM version: 0.0.x
+
+MM is a Mingle(http://studios.thoughtworks.com/) development console based on Mingle REST API.
+
+MM has the following features integrating with Mingle:
+
+* run transition
+* view card list | card
+* commit code with running transition
+
+== Download
+
+The latest version of MM can be found at
+
+* http://rubyforge.org/projects/mm/
+
+== Installation
+
+=== Normal Installation
+
+You can install MM with the following command.
+
+  % ruby install.rb
+
+from its distribution directory.
+
+=== GEM Installation
+
+Download and install MM with the following.
+
+   gem install --remote mm
+
+== Online Resources
+
+== MM References
+
+* MM Project Page: http://rubyforge.org/projects/mm
+* MM API Documents: http://mm.rubyforge.org
+
+Type "mm help" for an up-to-date help doc.
+
+== License
+
+MM is available under an Apache License Version 2.0.
+
+== Support
+
+The MM homepage is http://mm.rubyforge.org.  You can find the MM
+RubyForge page at http://rubyforge.org/projects/mm.
+
+Feel free to submit commits or feature requests.  If you send a patch,
+remember to update the corresponding unit tests.  If fact, I prefer
+new feature to be submitted in the form of new unit tests.
+
+For other information, feel free to ask on the ruby-talk mailing list or contact
+mailto:swing1979@gmail.com.
+
+== Usage
+
+Type "mm" for an up-to-date help doc.
+
+= Other stuff
+
+Author::  Li Xiao <swing1979@gmail.com>
+Requires:: Ruby 1.8.6 or later
+License::  Copyright 2008 by Li Xiao.
+           Released under an Apache License Version 2.0.  See the LICENSE file
+           included in the distribution.
+
+== Warranty
+
+This software is provided "as is" and without any express or
+implied warranties, including, without limitation, the implied
+warranties of merchantibility and fitness for a particular
+purpose.
