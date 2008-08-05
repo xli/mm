@@ -8,6 +8,13 @@ module MM
       
       def execute(runtime)
         case
+        when @command =~ /^properties$/
+          (runtime[:api].property_definitions || []).inject({}) do |map, prop|
+            if value = CardResourceCommand.new(prop.column_name, @card_resource).execute(runtime)
+              map[prop.name.to_sym] = value
+            end
+            map
+          end
         when @card_resource.respond_to?(@command)
           @card_resource.send(@command)
         when prop = (runtime[:api].property_definitions || []).detect{|prop_def| prop_def.name.downcase == @command}
