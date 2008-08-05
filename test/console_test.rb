@@ -78,6 +78,17 @@ Expectations do
     processor.process('#1 owner')
   end
   
+  expect 'iteration 1' do
+    @runtime = $helper.runtime
+    @runtime[:api][:team_members] = [$helper.user(:id => 2, :login => 'xli', :name => 'Li Xiao')]
+    @runtime[:api][:find_card_by_number, 1] = $helper.card(:number => 1, :name => 'first card', :cp_iteration_card_id => 2)
+    @runtime[:api][:find_card_by_number, 2] = $helper.card(:number => 2, :name => 'iteration 1', :cp_iteration_card_id => nil)
+    @runtime[:api][:property_definitions] = [$helper.property_definition(:name => 'iteration', :column_name => 'cp_iteration_card_id', :data_type => 'card')]
+    
+    processor = MM::Console::Processor.new(@runtime)
+    processor.process('#1 iteration')
+  end
+  
   expect :status => 'new' do
     @runtime = $helper.runtime
     @runtime[:api][:find_card_by_number, 1] = $helper.card(:number => 1, :name => 'first card', :card_type_name => 'story', :cp_status => 'new', :cp_owner_user_id => nil, :description => 'card description')

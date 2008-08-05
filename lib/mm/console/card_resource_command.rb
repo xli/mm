@@ -19,9 +19,14 @@ module MM
           @card_resource.send(@command)
         when prop = (runtime[:api].property_definitions || []).detect{|prop_def| prop_def.name.downcase == @command}
           value = @card_resource.send(prop.column_name)
-          if prop.data_type == 'user'
+          case prop.data_type
+          when 'user'
             if member = runtime[:api].team_members.detect{|m| m.id == value}
               value = member.name
+            end
+          when 'card'
+            if card = runtime[:api].find_card_by_number(value)
+              value = card.name
             end
           end
           value
