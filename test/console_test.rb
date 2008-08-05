@@ -201,6 +201,22 @@ Expectations do
     processor.process("`svn st")
   end
   
+  expect "revision: 4" do
+    @runtime = $helper.runtime
+    @runtime[:api][:execute_cmd, "svn ci -m '[not_variable_or_command]'"] = [0, "revision: 4"]
+    
+    processor = MM::Console::Processor.new(@runtime)
+    processor.process("`svn ci -m '[not_variable_or_command]'")
+  end
+  
+  expect "revision: 4" do
+    @runtime = $helper.runtime
+    @runtime[:api][:execute_cmd, "svn ci -m '[#]'"] = [0, "revision: 4"]
+    
+    processor = MM::Console::Processor.new(@runtime)
+    processor.process("`svn ci -m '[#]'")
+  end
+  
   expect "revision 2" do
     @runtime = $helper.runtime
     @runtime[:api][:execute_cmd, "svn ci -m 'message'"] = [0, "revision 2"]
@@ -218,6 +234,16 @@ Expectations do
     processor.process("`svn ci -m '[fixed]: details'`")
   end
   
+  expect "card transition executed" do
+    @runtime = $helper.runtime
+    @runtime[:api][:find_card_by_number, 1] = $helper.card(:number => 1, :name => 'first card', :card_type_name => 'story')
+    @runtime[:api][:execute_cmd, "svn ci -m 'Complete fix #1: details'"] = [0, "revision 2"]
+    @runtime[:api][:create_transition_execution, {:transition => 'Complete fix', :card => 1, :properties => [{:name => 'resolution', :value => 'fixed'}, {:name => 'revision', :value => '2'}], :comment => nil}] = 'card transition executed'
+    
+    processor = MM::Console::Processor.new(@runtime)
+    processor.process("`svn ci -m '[Complete fix #1 with resolution => fixed, \"revision\" => \#{revision}]: details'`")
+  end
+
   expect "card transition executed" do
     @runtime = $helper.runtime
     @runtime[:api][:find_card_by_number, 1] = $helper.card(:number => 1, :name => 'first card', :card_type_name => 'story')
