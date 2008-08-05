@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 require 'readline'
-require 'highline'
 
 module MM
   module Command
@@ -31,16 +30,19 @@ module MM
       end
 
       def do_once
-        @project = @runtime[:site].to_s.split('/').last
-        prompt = "#{@project}> #{@runtime[:context]}> "
+        prompt = "#{project}> #{@runtime[:context].to_s}> "
         input = Readline.readline(prompt, true).strip
         return if input.blank?
         exit(0) if input =~ /^(exit|quit)$/i
         begin
           puts MM::Console::Processor.new(@runtime).process(input)
         rescue
-          puts "Error: #{$!.message}"
+          puts "mm: #{$!.message}"
         end
+      end
+      
+      def project
+        @runtime[:site].to_s.split('/').last
       end
     end
   end
