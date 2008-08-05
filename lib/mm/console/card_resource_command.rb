@@ -11,7 +11,13 @@ module MM
         when @card_resource.respond_to?(@command)
           @card_resource.send(@command)
         when prop = (runtime[:api].property_definitions || []).detect{|prop_def| prop_def.name.downcase == @command}
-          @card_resource.send(prop.column_name)
+          value = @card_resource.send(prop.column_name)
+          if prop.data_type == 'user'
+            if member = runtime[:api].team_members.detect{|m| m.id == value}
+              value = member.name
+            end
+          end
+          value
         when runtime[@command.to_sym]
           MM::Console::Processor.new(runtime).process(runtime[@command.to_sym])
         else

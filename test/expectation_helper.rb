@@ -43,6 +43,11 @@ module MM
         MM::Resource::Mingle::Favorite.site = 'test'
         MM::Resource::Mingle::Favorite.new(attrs)
       end
+
+      def user(attrs)
+        MM::Resource::Mingle::User.site = 'test'
+        MM::Resource::Mingle::User.new(attrs)
+      end
     end
   end
 end

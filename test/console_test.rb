@@ -40,25 +40,42 @@ Expectations do
   expect 'new' do
     @runtime = $helper.runtime
     @runtime[:api][:find_card_by_number, 1] = $helper.card(:number => 1, :name => 'first card', :card_type_name => 'story', :cp_status => 'new')
-    @runtime[:api][:property_definitions] = [$helper.property_definition(:name => 'status', :column_name => 'cp_status')]
+    @runtime[:api][:property_definitions] = [$helper.property_definition(:name => 'status', :column_name => 'cp_status', :data_type => 'string')]
     processor = MM::Console::Processor.new(@runtime)
     processor.process('#1')
     processor.process('status')
   end
   
-  expect :status => 'new' do
+  expect 'new' do
     @runtime = $helper.runtime
     @runtime[:api][:find_card_by_number, 1] = $helper.card(:number => 1, :name => 'first card', :card_type_name => 'story', :cp_status => 'new')
-    @runtime[:api][:property_definitions] = [$helper.property_definition(:name => 'status', :column_name => 'cp_status')]
+    @runtime[:api][:property_definitions] = [$helper.property_definition(:name => 'status', :column_name => 'cp_status', :data_type => 'string')]
     processor = MM::Console::Processor.new(@runtime)
     processor.process('#1 status')
   end
   
-  expect :name => 'first card' do
+  expect 'first card' do
     @runtime = $helper.runtime
     @runtime[:api][:find_card_by_number, 1] = $helper.card(:number => 1, :name => 'first card', :card_type_name => 'story')
     processor = MM::Console::Processor.new(@runtime)
     processor.process('#1 name')
+  end
+  
+  expect({:name => 'first card', :card_type_name => 'story'}) do
+    @runtime = $helper.runtime
+    @runtime[:api][:find_card_by_number, 1] = $helper.card(:number => 1, :name => 'first card', :card_type_name => 'story')
+    processor = MM::Console::Processor.new(@runtime)
+    processor.process('#1 name card_type_name')
+  end
+  
+  expect 'Li Xiao' do
+    @runtime = $helper.runtime
+    @runtime[:api][:team_members] = [$helper.user(:id => 2, :login => 'xli', :name => 'Li Xiao')]
+    @runtime[:api][:find_card_by_number, 1] = $helper.card(:number => 1, :name => 'first card', :cp_owner_user_id => 2)
+    @runtime[:api][:property_definitions] = [$helper.property_definition(:name => 'owner', :column_name => 'cp_owner_user_id', :data_type => 'user')]
+    
+    processor = MM::Console::Processor.new(@runtime)
+    processor.process('#1 owner')
   end
 end
 
@@ -224,4 +241,3 @@ Expectations do
     MM::Console::SelectingList.new(['1', '2'], Class).to_s
   end
 end
-

@@ -37,6 +37,8 @@ module MM
           runtime[:context] = Context.new(card)
           if @attrs.blank?
             card
+          elsif @attrs.size == 1
+            MM::Console::CardResourceCommand.new(@attrs.first, card).execute(runtime)
           else
             @attrs.inject({}) do |map, att|
               map[att.to_sym] = MM::Console::CardResourceCommand.new(att, card).execute(runtime)
