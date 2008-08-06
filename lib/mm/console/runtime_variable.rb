@@ -7,7 +7,11 @@ module MM
       end
       
       def execute(runtime)
-        runtime[@name.to_sym] = @value
+        if @value.blank?
+          runtime.delete @name.to_sym
+        else
+          runtime[@name.to_sym] = @value
+        end
       end
     end
   end

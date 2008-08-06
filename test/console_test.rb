@@ -185,6 +185,14 @@ Expectations do
     @runtime[:revision]
   end
   
+  expect false do
+    @runtime = $helper.runtime
+    
+    processor = MM::Console::Processor.new(@runtime)
+    processor.process('revision = \'\'')
+    @runtime.has_key? :revision
+  end
+  
   expect 'new api obj' do
     @runtime = $helper.runtime
     @runtime[:api][:renew] = 'new api obj'
