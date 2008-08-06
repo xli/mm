@@ -38,10 +38,6 @@ module MM
         init(Resource::Mingle::Card)
         Resource::Mingle::Card.find(:all, :params => options)
       end
-    
-      def init(klass)
-        klass.site = @runtime[:site]
-      end
     end
   end
 end
