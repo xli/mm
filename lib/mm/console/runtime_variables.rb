@@ -13,8 +13,14 @@ module MM
 
       def execute(runtime)
         names = runtime.keys.sort_by{|n|n.to_s}
-        runtime[:selecting_list] = MM::Console::SelectingList.new(names, MM::Console::RuntimeVariables::Value)
+        runtime[:selecting_list] = SelectingList.new(names, MM::Console::RuntimeVariables::Value)
+      end
+      
+      def doc(runtime)
+        'show existed runtime variables, how to set a variable? example: fixed = \'complete fix\''
       end
     end
+    
+    Processor.register(:key => 'variables', :short_key => 'v', :instance => RuntimeVariables.new)
   end
 end
