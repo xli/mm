@@ -16,7 +16,8 @@ module MM
           't' => MM::Console::Tabs.new,
           'tabs' => MM::Console::Tabs.new,
           'v' => MM::Console::RuntimeVariables.new,
-          'variables' => MM::Console::RuntimeVariables.new
+          'variables' => MM::Console::RuntimeVariables.new,
+          'clean_cache' => MM::Console::CleanCache.new
         }
       end
       

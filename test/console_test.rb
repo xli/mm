@@ -175,7 +175,7 @@ Expectations do
   end
 end
 
-#runtime variable
+#runtime
 Expectations do
   expect '2' do
     @runtime = $helper.runtime
@@ -183,6 +183,14 @@ Expectations do
     processor = MM::Console::Processor.new(@runtime)
     processor.process('revision = 2')
     @runtime[:revision]
+  end
+  
+  expect 'new api obj' do
+    @runtime = $helper.runtime
+    @runtime[:api][:renew] = 'new api obj'
+    processor = MM::Console::Processor.new(@runtime)
+    processor.process('clean_cache')
+    @runtime[:api]
   end
   
   expect 'Complete fix with resolution => fixed, "revision fixed" => #{revision}' do

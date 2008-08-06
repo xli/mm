@@ -16,6 +16,10 @@ module MM
     def init(klass)
       klass.site = @runtime[:site]
     end
+    
+    def renew
+      self.class.new(@runtime)
+    end
 
     def to_s
       Mingle.instance_methods.join("\n")
