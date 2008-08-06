@@ -26,6 +26,12 @@ module MM
           puts MM::Console::Processor.new(@runtime).process(input)
         rescue
           puts "mm: #{$!.message}"
+          if @runtime[:debug]
+            puts ''
+            puts '---------- debug -----------'
+            puts $!.backtrace.join("\n") 
+            puts ''
+          end
         end
       end
       

@@ -9,8 +9,8 @@ module MM
       def basic_commands(runtime)
         Processor::REGISTERED_COMMANDS.collect do |cmd|
           r = " - #{cmd[:instance].class.name.titleize.split('/').last}: #{cmd[:instance].doc(runtime)}\n"
-          r << "   key: #{cmd[:key]}\n"
-          r << "   short key: #{cmd[:short_key]}\n" if cmd[:short_key]
+          r << "   - key: #{cmd[:key]}\n"
+          r << "   - short key: #{cmd[:short_key]}\n" if cmd[:short_key]
           r
         end.join("\n")
       end

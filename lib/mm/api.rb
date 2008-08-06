@@ -14,6 +14,8 @@ module MM
     end
 
     def init(klass)
+      raise "Please setup a variable name site for your project. \n - Example: site = 'http://login:password@mingle.domain.com/projects/project_identifier'" if @runtime[:site].blank?
+      
       klass.site = @runtime[:site]
     end
     

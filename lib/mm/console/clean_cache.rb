@@ -6,7 +6,7 @@ module MM
       end
       
       def doc(runtime)
-        names = runtime[:api].instance_variable_names.collect(&:titleize)
+        names = runtime[:api].instance_variable_names.collect{|n| n.gsub(/@/, '').titleize} - ['Runtime']
         "clean current cached resource objects: #{names.empty? ? '(no object cached)' : names.join(", ")}"
       end
     end
