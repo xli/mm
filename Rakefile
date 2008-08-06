@@ -46,20 +46,12 @@ end
 
 # Common Abbreviations ...
 
-task :test_all => [:test_units, :tf]
-task :tu => :test_units
-task :tf => :test_functionals
+task :test_all => [:test_units]
 task :test => :test_units
 
 Rake::TestTask.new(:test_units) do |t|
   t.test_files = FileList['test/*test.rb']
-  t.warning = true
-  t.verbose = false
-end
-
-Rake::TestTask.new(:test_functionals) do |t|
-  t.test_files = FileList['test/scenario*.rb']
-  t.warning = true
+  t.warning = false
   t.verbose = false
 end
 
