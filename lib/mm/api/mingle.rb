@@ -19,11 +19,6 @@ module MM
         @favorites = Resource::Mingle::Favorite.find(:all)
       end
     
-      def create_transition_execution(attrs)
-        init(Resource::Mingle::TransitionExecution)
-        Resource::Mingle::TransitionExecution.create(attrs)
-      end
-  
       def find_card(options={})
         init(Resource::Mingle::Card)
         Resource::Mingle::Card.find(:first, options)
@@ -37,6 +32,14 @@ module MM
       def find_cards(options={})
         init(Resource::Mingle::Card)
         Resource::Mingle::Card.find(:all, :params => options)
+      end
+
+      def create_transition_execution(attrs)
+        init(Resource::Mingle::TransitionExecution)
+        te = Resource::Mingle::TransitionExecution.create(attrs)
+        unless te.errors.empty?
+          raise te.errors.full_messages.join("; ")
+        end
       end
     end
   end
