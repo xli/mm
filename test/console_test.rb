@@ -208,6 +208,32 @@ Expectations do
     processor.process('fixed = \'Complete fix with resolution => fixed, "revision fixed" => #{revision}\'')
     @runtime[:fixed]
   end
+
+  expect 'Complete fix with resolution => fixed, "revision fixed" => #{revision}' do
+    @runtime = $helper.runtime
+    
+    processor = MM::Console::Processor.new(@runtime)
+    processor.process('fixed = \'Complete fix with resolution => fixed, "revision fixed" => #{revision}\'')
+    processor.process('fixed')
+  end
+
+  expect 'http://login:pass@domain.com/projects/mingle' do
+    @runtime = $helper.runtime
+    
+    processor = MM::Console::Processor.new(@runtime)
+    processor.process('site = \'http://login:pass@domain.com/projects/mingle\'')
+    processor.process('site')
+  end
+
+  expect 'http://login:pass@domain.com/projects/mingle' do
+    @runtime = $helper.runtime
+    @runtime[:api][:find_card_by_number, 1] = $helper.card(:number => 1, :name => 'first card', :card_type_name => 'story')
+    
+    processor = MM::Console::Processor.new(@runtime)
+    processor.process('site = \'http://login:pass@domain.com/projects/mingle\'')
+    processor.process('#1')
+    processor.process('site')
+  end
 end
 
 #integrate with svn

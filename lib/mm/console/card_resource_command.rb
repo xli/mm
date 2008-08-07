@@ -17,7 +17,7 @@ module MM
           end
         when @card_resource.respond_to?(@command)
           @card_resource.send(@command)
-        when prop = (runtime[:api].property_definitions || []).detect{|prop_def| prop_def.name.downcase == @command}
+        when prop = find_property_definition(runtime, @command)
           value = @card_resource.send(prop.column_name)
           case prop.data_type
           when 'user'
@@ -31,10 +31,14 @@ module MM
           end
           value
         when runtime[@command.to_sym]
-          MM::Console::Processor.new(runtime).process(runtime[@command.to_sym])
+          NoResourceCommand.new(@command).execute(runtime)
         else
-          MM::Console::Transition.new(:command => @command, :card_number => @card_resource.number).execute(runtime)
+          Transition.new(:command => @command, :card_number => @card_resource.number).execute(runtime)
         end
+      end
+      
+      def find_property_definition(runtime, name)
+        (runtime[:api].property_definitions || []).detect{|prop_def| prop_def.name.downcase == name.downcase}
       end
     end
   end
