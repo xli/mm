@@ -10,6 +10,7 @@ Send suggestions for this list to swing1979@gmail.com
   !    transition name #number => card workspace
   !    view name => view workspace
   #    view filters => view workspace
+  #    view by mql
   #  project
   !    set runtime variable
   !    variable list
@@ -24,6 +25,8 @@ Send suggestions for this list to swing1979@gmail.com
   !       user property
           date property
   !    svn commit
+  #    update card attribute
+  #    create card
   #  view
   #    list
   #    next
