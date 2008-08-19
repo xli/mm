@@ -6,6 +6,10 @@ module MM
         @handle_item_class = handle_item_class
       end
       
+      def <<(item)
+        @list << item
+      end
+      
       def select_by_index(runtime, index)
         if @list[index]
           @handle_item_class.new(@list[index]).execute(runtime)

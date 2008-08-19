@@ -20,8 +20,15 @@ module MM
 
         def execute(runtime)
           if @todo.blank?
-            runtime[:todo] ||= SelectingList.new([], Event)
+            todo_list(runtime)
+          else
+            todo_list(runtime) << @todo
+            ''
           end
+        end
+        
+        def todo_list(runtime)
+          runtime[:todo] ||= SelectingList.new([], Event)
         end
       end
     end
