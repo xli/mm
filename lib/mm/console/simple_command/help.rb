@@ -52,7 +52,7 @@ module MM
         def basic_commands(runtime)
           Processor::REGISTERED_COMMANDS.collect do |cmd|
             r = " - #{cmd.name.titleize.split('/').last}: #{cmd.doc(runtime)}\n"
-            r << "   - keys: #{cmd.keys.join("\n")}\n"
+            r << "   - keys: #{cmd.keys.join(", ")}\n"
             r
           end.join("\n")
         end
