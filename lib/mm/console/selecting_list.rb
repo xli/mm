@@ -10,8 +10,8 @@ module MM
         @list << item
       end
       
-      def replace(current_item, new_item)
-        @list = @list.collect{|item| item == current_item ? new_item : item}
+      def delete(item)
+        @list.delete(item)
       end
       
       def select_by_index(runtime, index)

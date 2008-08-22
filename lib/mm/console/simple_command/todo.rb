@@ -2,20 +2,42 @@ module MM
   module Console
     module SimpleCommand
       class ToDo
-        FIRST_STATUS = 'Start work on'
-        
         class Event
-          STATUS = {FIRST_STATUS => 'Complate'}
-          
-          def initialize(todo)
-            @todo = todo
-            @todo =~ /^([\w\s]+): (.+)/
-            @status = $1
-            @task = $2
+          def initialize(task)
+            @task = task
           end
           
           def execute(runtime)
-            runtime[:todo].replace(@todo, "#{STATUS[@status]}: #{@task}")
+            @task.next(runtime)
+            runtime[:list]
+          end
+        end
+        
+        class Task
+          def initialize(detail)
+            @detail = detail
+            @status = []
+            @status << {:desc => 'todo', :next_action => 'start_work', :at => Time.now}
+          end
+          
+          def next(runtime)
+            send(@status.last[:next_action], runtime)
+          end
+          
+          def start_work(runtime)
+            @status << {:desc => 'working on', :next_action => 'complete', :at => Time.now}
+          end
+          
+          def complete(runtime)
+            @status << {:desc => 'completed', :next_action => 'delete', :at => Time.now}
+          end
+          
+          def delete(runtime)
+            runtime[:todo].delete(self)
+          end
+          
+          def to_s
+            "#{@status.last[:next_action].titleize}: #{@detail}"
           end
         end
         
@@ -34,7 +56,7 @@ module MM
 
         def execute(runtime)
           unless @todo.blank?
-            todo_list(runtime) << "#{FIRST_STATUS}: #{@todo}"
+            todo_list(runtime) << Task.new(@todo)
           end
           runtime[:list] = todo_list(runtime)
         end
