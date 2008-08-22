@@ -36,7 +36,7 @@ module MM
             ret << "#{index}) #{obj}"
           end
           ret << ''
-          ret << "! > Type index number to select item from list.\n"
+          ret << "! > Type index number to select item from list.\n " #added one space at the end line so the it can be print out
           ret.join("\n")
         end
       end
