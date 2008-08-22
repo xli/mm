@@ -10,6 +10,10 @@ module MM
         @list << item
       end
       
+      def replace(current_item, new_item)
+        @list = @list.collect{|item| item == current_item ? new_item : item}
+      end
+      
       def select_by_index(runtime, index)
         if @list[index]
           @handle_item_class.new(@list[index]).execute(runtime)
@@ -27,12 +31,12 @@ module MM
         if @list.blank?
           '! > Nothing.'
         else
-          ret = []
+          ret = ['']
           @list.each_with_index do |obj, index|
             ret << "#{index}) #{obj}"
           end
           ret << ''
-          ret << "! > Type index number to select item from list.\n "
+          ret << "! > Type index number to select item from list.\n"
           ret.join("\n")
         end
       end
