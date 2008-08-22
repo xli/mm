@@ -23,7 +23,7 @@ module MM
 
         def execute(runtime)
           names = runtime.keys.sort_by{|n|n.to_s}
-          runtime[:selecting_list] = SelectingList.new(names, Value)
+          runtime[:list] = SelectingList.new(names, Value)
         end
       end
     end

@@ -24,7 +24,7 @@ module MM
       def execute(runtime)
         if @cards = runtime[:api].find_cards(:view => @view_name)
           runtime[:context] = Context.new(@view_name, @cards)
-          runtime[:selecting_list] = SelectingList.new(@cards, MM::Console::Card)
+          runtime[:list] = SelectingList.new(@cards, MM::Console::Card)
         end
       end
     end

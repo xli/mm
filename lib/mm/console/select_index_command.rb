@@ -6,7 +6,7 @@ module MM
       end
       
       def execute(runtime)
-        runtime[:selecting_list].select_by_index(runtime, @index)
+        runtime[:list].select_by_index(runtime, @index)
       end
     end
   end

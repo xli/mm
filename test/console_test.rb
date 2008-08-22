@@ -328,6 +328,24 @@ Expectations do
   end
 end
 
+#list
+Expectations do
+  expect RuntimeError do
+    @runtime = $helper.runtime
+    processor = MM::Console::Processor.new(@runtime)
+    processor.process('list')
+  end
+  
+  expect MM::Console::SelectingList.new(['My Work'], MM::Console::View) do
+    @runtime = $helper.runtime
+    @runtime[:api][:favorites] = [$helper.favorite(:name => 'My Work', :tab_view => true)]
+    @runtime[:api][:find_cards, {:view => 'My Work'}] = [$helper.card(:number => 1, :name => 'first card', :card_type_name => 'story')]
+    processor = MM::Console::Processor.new(@runtime)
+    processor.process('tabs')
+    processor.process('list')
+  end
+end
+
 #variables
 Expectations do
   expect MM::Console::SelectingList.new([:api, :context], MM::Console::SimpleCommand::RuntimeVariables::Value) do
