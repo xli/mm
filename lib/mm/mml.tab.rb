@@ -10,7 +10,7 @@ require 'strscan'
 
 class MMLanguageParser < Racc::Parser
 
-module_eval(<<'...end mml.grammar/module_eval...', 'mml.grammar', 122)
+module_eval(<<'...end mml.grammar/module_eval...', 'mml.grammar', 124)
 
 def unquote(value)
   case value
@@ -24,7 +24,7 @@ def parse(str, runtime)
   @input = str.to_s
   tokens = []
   scanner = StringScanner.new(@input)
-  
+
   until scanner.eos?
     case
     when scanner.scan(/\s+/)
@@ -86,56 +86,56 @@ end
 ##### State transition tables begin ###
 
 racc_action_table = [
-     2,    25,    12,     2,    12,    36,    26,     5,     7,    35,
-    23,    11,     1,    19,    12,    16,    17,    33,    34,    16,
-    17,    16,    17,    49,    50,    16,    17,    16,    17,    16,
-    17,    15,    14,    39,    40,    25,    43,    44,    45,    47,
-    39,    12,    32 ]
+     2,    26,    12,    37,     2,    12,    27,    36,     5,     7,
+    23,    25,    11,     1,    19,    12,    16,    17,    34,    35,
+    16,    17,    16,    17,    50,    51,    16,    17,    16,    17,
+    16,    17,    15,    14,    40,    41,    26,    44,    45,    46,
+    48,    40,    12,    33 ]
 
 racc_action_check = [
-    10,    10,    14,     0,    12,    24,    10,     0,     0,    24,
-    10,     0,     0,     5,     5,     4,     4,    19,    19,     7,
-     7,     8,     8,    45,    45,    11,    11,    13,    13,    46,
-    46,     3,     2,    25,    26,    27,    36,    38,    39,    41,
-    44,     1,    15 ]
+    10,    10,    14,    24,     0,    12,    10,    24,     0,     0,
+    10,    10,     0,     0,     5,     5,     4,     4,    19,    19,
+     7,     7,     8,     8,    46,    46,    11,    11,    13,    13,
+    47,    47,     3,     2,    26,    27,    28,    37,    39,    40,
+    42,    45,     1,    15 ]
 
 racc_action_pointer = [
-     1,    35,    25,    31,     3,     8,   nil,     7,     9,   nil,
-    -2,    13,    -2,    15,    -4,    42,   nil,   nil,   nil,    11,
-   nil,   nil,   nil,   nil,    -3,    27,    22,    32,   nil,   nil,
-   nil,   nil,   nil,   nil,   nil,   nil,    24,   nil,    28,    34,
-   nil,    31,   nil,   nil,    34,    17,    17,   nil,   nil,   nil,
-   nil,   nil ]
+     2,    36,    26,    32,     4,     9,   nil,     8,    10,   nil,
+    -2,    14,    -1,    16,    -4,    43,   nil,   nil,   nil,    12,
+   nil,   nil,   nil,   nil,    -5,   nil,    28,    23,    33,   nil,
+   nil,   nil,   nil,   nil,   nil,   nil,   nil,    25,   nil,    29,
+    35,   nil,    32,   nil,   nil,    35,    18,    18,   nil,   nil,
+   nil,   nil,   nil ]
 
 racc_action_default = [
-   -33,   -33,   -33,   -33,   -19,   -31,   -24,   -19,   -19,    -5,
-    -7,   -19,   -31,   -19,   -17,   -33,   -20,   -21,    -1,   -33,
-   -32,    -8,    -4,    -6,   -33,   -33,   -33,   -13,    -3,    -2,
-   -25,   -18,    52,   -22,   -23,   -11,   -33,   -26,   -27,   -33,
-   -12,   -15,   -14,   -10,   -33,   -33,   -19,   -16,   -28,   -29,
-   -30,    -9 ]
+   -34,   -34,   -34,   -34,   -20,   -32,   -25,   -20,   -20,    -5,
+    -8,   -20,   -32,   -20,   -18,   -34,   -21,   -22,    -1,   -34,
+   -33,    -9,    -4,    -6,   -34,    -7,   -34,   -34,   -14,    -3,
+    -2,   -26,   -19,    53,   -23,   -24,   -12,   -34,   -27,   -28,
+   -34,   -13,   -16,   -15,   -11,   -34,   -34,   -20,   -17,   -29,
+   -30,   -31,   -10 ]
 
 racc_goto_table = [
-    18,    37,    24,    21,    22,     8,    10,    28,     9,    29,
-     6,    13,    41,    46,     4,    27,    30,     3,   nil,    42,
-    48,   nil,   nil,   nil,    31,   nil,   nil,   nil,   nil,   nil,
+    18,    38,     8,    21,    22,    24,    10,    29,     9,    30,
+     6,    13,    28,    42,    47,     4,    31,     3,   nil,   nil,
+    49,   nil,   nil,    43,    32,   nil,   nil,   nil,   nil,   nil,
    nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,
-   nil,   nil,    51 ]
+   nil,   nil,   nil,    52 ]
 
 racc_goto_check = [
-     3,    12,    10,     3,     3,     5,     7,     3,     6,     3,
-     4,     4,     8,     9,     2,     5,    11,     1,   nil,    10,
-    12,   nil,   nil,   nil,     4,   nil,   nil,   nil,   nil,   nil,
+     3,    12,     5,     3,     3,    10,     7,     3,     6,     3,
+     4,     4,     5,     8,     9,     2,    11,     1,   nil,   nil,
+    12,   nil,   nil,    10,     4,   nil,   nil,   nil,   nil,   nil,
    nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,   nil,
-   nil,   nil,     3 ]
+   nil,   nil,   nil,     3 ]
 
 racc_goto_pointer = [
-   nil,    17,    14,    -4,    10,     5,     8,     6,   -15,   -28,
-    -8,     2,   -24,   nil ]
+   nil,    17,    15,    -4,    10,     2,     8,     6,   -15,   -28,
+    -5,     2,   -25,   nil ]
 
 racc_goto_default = [
    nil,   nil,   nil,   nil,    20,   nil,   nil,   nil,   nil,   nil,
-   nil,   nil,   nil,    38 ]
+   nil,   nil,   nil,    39 ]
 
 racc_reduce_table = [
   0, 0, :racc_error,
@@ -145,36 +145,37 @@ racc_reduce_table = [
   2, 15, :_reduce_4,
   1, 15, :_reduce_5,
   2, 15, :_reduce_6,
-  1, 15, :_reduce_7,
-  2, 15, :_reduce_8,
-  5, 20, :_reduce_9,
-  4, 20, :_reduce_10,
-  3, 20, :_reduce_11,
+  2, 15, :_reduce_7,
+  1, 15, :_reduce_8,
+  2, 15, :_reduce_9,
+  5, 20, :_reduce_10,
+  4, 20, :_reduce_11,
   3, 20, :_reduce_12,
-  0, 22, :_reduce_13,
+  3, 20, :_reduce_13,
+  0, 22, :_reduce_14,
   1, 22, :_reduce_none,
-  0, 23, :_reduce_15,
-  1, 23, :_reduce_16,
-  0, 25, :_reduce_17,
-  1, 25, :_reduce_18,
-  0, 17, :_reduce_19,
-  1, 17, :_reduce_20,
+  0, 23, :_reduce_16,
+  1, 23, :_reduce_17,
+  0, 25, :_reduce_18,
+  1, 25, :_reduce_19,
+  0, 17, :_reduce_20,
   1, 17, :_reduce_21,
-  3, 16, :_reduce_22,
+  1, 17, :_reduce_22,
   3, 16, :_reduce_23,
-  1, 21, :_reduce_24,
-  3, 19, :_reduce_25,
-  2, 24, :_reduce_26,
-  1, 26, :_reduce_27,
-  3, 26, :_reduce_28,
-  3, 27, :_reduce_29,
+  3, 16, :_reduce_24,
+  1, 21, :_reduce_25,
+  3, 19, :_reduce_26,
+  2, 24, :_reduce_27,
+  1, 26, :_reduce_28,
+  3, 26, :_reduce_29,
   3, 27, :_reduce_30,
-  1, 18, :_reduce_31,
-  2, 18, :_reduce_32 ]
+  3, 27, :_reduce_31,
+  1, 18, :_reduce_32,
+  2, 18, :_reduce_33 ]
 
-racc_reduce_n = 33
+racc_reduce_n = 34
 
-racc_shift_n = 52
+racc_shift_n = 53
 
 racc_token_table = {
   false => 0,
@@ -292,12 +293,18 @@ module_eval(<<'.,.,', 'mml.grammar', 29)
 
 module_eval(<<'.,.,', 'mml.grammar', 31)
   def _reduce_8(val, _values)
+    MM::Console::NoResourceCommand.new(val[0])
+  end
+.,.,
+
+module_eval(<<'.,.,', 'mml.grammar', 33)
+  def _reduce_9(val, _values)
     MM::Console::SelectIndexCommand.new(val[0].to_i)
   end
 .,.,
 
-module_eval(<<'.,.,', 'mml.grammar', 36)
-  def _reduce_9(val, _values)
+module_eval(<<'.,.,', 'mml.grammar', 38)
+  def _reduce_10(val, _values)
     {
       :command => val[0],
       :card_number => val[1].number,
@@ -307,8 +314,8 @@ module_eval(<<'.,.,', 'mml.grammar', 36)
   end
 .,.,
 
-module_eval(<<'.,.,', 'mml.grammar', 43)
-  def _reduce_10(val, _values)
+module_eval(<<'.,.,', 'mml.grammar', 45)
+  def _reduce_11(val, _values)
     {
       :command => val[0],
       :properties => val[1],
@@ -318,8 +325,8 @@ module_eval(<<'.,.,', 'mml.grammar', 43)
   end
 .,.,
 
-module_eval(<<'.,.,', 'mml.grammar', 50)
-  def _reduce_11(val, _values)
+module_eval(<<'.,.,', 'mml.grammar', 52)
+  def _reduce_12(val, _values)
     {
       :command => val[0],
       :properties => val[1],
@@ -328,8 +335,8 @@ module_eval(<<'.,.,', 'mml.grammar', 50)
   end
 .,.,
 
-module_eval(<<'.,.,', 'mml.grammar', 56)
-  def _reduce_12(val, _values)
+module_eval(<<'.,.,', 'mml.grammar', 58)
+  def _reduce_13(val, _values)
     {
       :command => val[0],
       :comment => val[1],
@@ -338,118 +345,118 @@ module_eval(<<'.,.,', 'mml.grammar', 56)
   end
 .,.,
 
-module_eval(<<'.,.,', 'mml.grammar', 64)
-  def _reduce_13(val, _values)
+module_eval(<<'.,.,', 'mml.grammar', 66)
+  def _reduce_14(val, _values)
      nil 
   end
 .,.,
 
-# reduce 14 omitted
+# reduce 15 omitted
 
-module_eval(<<'.,.,', 'mml.grammar', 69)
-  def _reduce_15(val, _values)
-     nil 
-  end
-.,.,
-
-module_eval(<<'.,.,', 'mml.grammar', 70)
+module_eval(<<'.,.,', 'mml.grammar', 71)
   def _reduce_16(val, _values)
-     val[0] 
+     nil 
   end
 .,.,
 
-module_eval(<<'.,.,', 'mml.grammar', 74)
+module_eval(<<'.,.,', 'mml.grammar', 72)
   def _reduce_17(val, _values)
-     nil 
-  end
-.,.,
-
-module_eval(<<'.,.,', 'mml.grammar', 75)
-  def _reduce_18(val, _values)
      val[0] 
   end
 .,.,
 
-module_eval(<<'.,.,', 'mml.grammar', 79)
-  def _reduce_19(val, _values)
+module_eval(<<'.,.,', 'mml.grammar', 76)
+  def _reduce_18(val, _values)
      nil 
   end
 .,.,
 
-module_eval(<<'.,.,', 'mml.grammar', 80)
-  def _reduce_20(val, _values)
-    val[0]
+module_eval(<<'.,.,', 'mml.grammar', 77)
+  def _reduce_19(val, _values)
+     val[0] 
   end
 .,.,
 
 module_eval(<<'.,.,', 'mml.grammar', 81)
+  def _reduce_20(val, _values)
+     nil 
+  end
+.,.,
+
+module_eval(<<'.,.,', 'mml.grammar', 82)
   def _reduce_21(val, _values)
     val[0]
   end
 .,.,
 
-module_eval(<<'.,.,', 'mml.grammar', 85)
+module_eval(<<'.,.,', 'mml.grammar', 83)
   def _reduce_22(val, _values)
-    MM::Console::RuntimeVariable.new(:name => val[0], :value => val[2])
+    val[0]
   end
 .,.,
 
-module_eval(<<'.,.,', 'mml.grammar', 86)
+module_eval(<<'.,.,', 'mml.grammar', 87)
   def _reduce_23(val, _values)
     MM::Console::RuntimeVariable.new(:name => val[0], :value => val[2])
   end
 .,.,
 
-module_eval(<<'.,.,', 'mml.grammar', 90)
+module_eval(<<'.,.,', 'mml.grammar', 88)
   def _reduce_24(val, _values)
+    MM::Console::RuntimeVariable.new(:name => val[0], :value => val[2])
+  end
+.,.,
+
+module_eval(<<'.,.,', 'mml.grammar', 92)
+  def _reduce_25(val, _values)
      val[0].join(" ") 
   end
 .,.,
 
-module_eval(<<'.,.,', 'mml.grammar', 94)
-  def _reduce_25(val, _values)
+module_eval(<<'.,.,', 'mml.grammar', 96)
+  def _reduce_26(val, _values)
      MM::Console::Card.new(val[1].to_i, val[2]) 
   end
 .,.,
 
-module_eval(<<'.,.,', 'mml.grammar', 98)
-  def _reduce_26(val, _values)
+module_eval(<<'.,.,', 'mml.grammar', 100)
+  def _reduce_27(val, _values)
      val[1] 
   end
 .,.,
 
-module_eval(<<'.,.,', 'mml.grammar', 102)
-  def _reduce_27(val, _values)
+module_eval(<<'.,.,', 'mml.grammar', 104)
+  def _reduce_28(val, _values)
      [val[0]] 
   end
 .,.,
 
-module_eval(<<'.,.,', 'mml.grammar', 103)
-  def _reduce_28(val, _values)
+module_eval(<<'.,.,', 'mml.grammar', 105)
+  def _reduce_29(val, _values)
      [val[0]] + val[2] 
   end
 .,.,
 
-module_eval(<<'.,.,', 'mml.grammar', 107)
-  def _reduce_29(val, _values)
-     { :name => val[0], :value => val[2] } 
-  end
-.,.,
-
-module_eval(<<'.,.,', 'mml.grammar', 108)
+module_eval(<<'.,.,', 'mml.grammar', 109)
   def _reduce_30(val, _values)
      { :name => val[0], :value => val[2] } 
   end
 .,.,
 
-module_eval(<<'.,.,', 'mml.grammar', 112)
+module_eval(<<'.,.,', 'mml.grammar', 110)
   def _reduce_31(val, _values)
+     { :name => val[0], :value => val[2] } 
+  end
+.,.,
+
+module_eval(<<'.,.,', 'mml.grammar', 114)
+  def _reduce_32(val, _values)
      [val[0]] 
   end
 .,.,
 
-module_eval(<<'.,.,', 'mml.grammar', 113)
-  def _reduce_32(val, _values)
+module_eval(<<'.,.,', 'mml.grammar', 115)
+  def _reduce_33(val, _values)
      [val[0]] + val[1] 
   end
 .,.,

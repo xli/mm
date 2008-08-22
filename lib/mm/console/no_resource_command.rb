@@ -8,10 +8,10 @@ module MM
       def execute(runtime)
         case
         when runtime[@command.to_sym]
-          if mml = parse(runtime, runtime[@command.to_sym])
+          if runtime[@command.to_sym].is_a?(String) && mml = parse(runtime, runtime[@command.to_sym])
             mml.execute(runtime)
           else
-            runtime[@command.to_sym]
+            Console::SimpleCommand::RuntimeVariables::Value.new(@command.to_sym).execute(runtime)
           end
         else
           raise "What's '#{@command}' mean?"

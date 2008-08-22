@@ -10,6 +10,10 @@ module MM
         @list << item
       end
       
+      def uniq!
+        @list.uniq!
+      end
+      
       def delete(item)
         @list.delete(item)
       end

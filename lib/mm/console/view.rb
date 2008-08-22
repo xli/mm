@@ -12,6 +12,11 @@ module MM
           tokens.push [:VIEW_RESOURCE, @view_name]
         end
         
+        def apply(runtime)
+          runtime[:context] = self
+          runtime[:list] = SelectingList.new(@cards, MM::Console::Card)
+        end
+        
         def to_s
           "#{@view_name}"
         end
@@ -23,8 +28,7 @@ module MM
       
       def execute(runtime)
         if @cards = runtime[:api].find_cards(:view => @view_name)
-          runtime[:context] = Context.new(@view_name, @cards)
-          runtime[:list] = SelectingList.new(@cards, MM::Console::Card)
+          Context.new(@view_name, @cards).apply(runtime)
         end
       end
     end

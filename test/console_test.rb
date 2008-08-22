@@ -348,13 +348,13 @@ end
 
 #variables
 Expectations do
-  expect MM::Console::SelectingList.new([:api, :context], MM::Console::SimpleCommand::RuntimeVariables::Value) do
+  expect MM::Console::SelectingList.new([:api, :context, :history], MM::Console::SimpleCommand::RuntimeVariables::Value) do
     @runtime = $helper.runtime
     processor = MM::Console::Processor.new(@runtime)
     processor.process('variables')
   end
 
-  expect MM::Console::SelectingList.new([:api, :context], MM::Console::SimpleCommand::RuntimeVariables::Value) do
+  expect MM::Console::SelectingList.new([:api, :context, :history], MM::Console::SimpleCommand::RuntimeVariables::Value) do
     @runtime = $helper.runtime
     processor = MM::Console::Processor.new(@runtime)
     processor.process('v')

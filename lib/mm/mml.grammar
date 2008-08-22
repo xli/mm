@@ -26,6 +26,8 @@ rule
     {MM::Console::Transition.new(val[0])}
   | command_name CARD_RESOURCE
     {MM::Console::CardResourceCommand.new(val[0], val[1])}
+  | command_name VIEW_RESOURCE
+    {MM::Console::NoResourceCommand.new(val[0])}
   | command_name
     {MM::Console::NoResourceCommand.new(val[0])}
   | NUMBER opt_workspace
@@ -132,7 +134,7 @@ def parse(str, runtime)
   @input = str.to_s
   tokens = []
   scanner = StringScanner.new(@input)
-  
+
   until scanner.eos?
     case
     when scanner.scan(/\s+/)

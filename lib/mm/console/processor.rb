@@ -11,6 +11,16 @@ module MM
         end
       end
       
+      class HistoryEvent
+        def initialize(event)
+          @event = event
+        end
+        
+        def execute(runtime)
+          @event.apply(runtime)
+        end
+      end
+      
       def self.register(command)
         REGISTERED_COMMANDS << command
       end
@@ -18,6 +28,7 @@ module MM
       def initialize(runtime)
         @runtime = runtime
         @runtime[:context] ||= EmptyContext.new
+        @runtime[:history] ||= SelectingList.new([], HistoryEvent)
       end
       
       def parse(input)
@@ -29,6 +40,10 @@ module MM
       end
       
       def process(input)
+        unless @runtime[:context].is_a?(EmptyContext)
+          @runtime[:history] << @runtime[:context] 
+          @runtime[:history].uniq!
+        end
         mml = parse(input)
         mml.execute(@runtime)
       end

@@ -11,6 +11,11 @@ module MM
           tokens.push [:CARD_RESOURCE, @card]
         end
         
+        def apply(runtime)
+          runtime[:context] = self
+          @card
+        end
+        
         #don't use Delegator, which has problem with store this object instance as yaml
         def method_missing(method, *args, &block)
           if @card.respond_to?(method)
@@ -34,7 +39,7 @@ module MM
       
       def execute(runtime)
         if card = @number.kind_of?(ActiveResource::Base) ? @number : runtime[:api].find_card_by_number(@number)
-          runtime[:context] = Context.new(card)
+          Context.new(card).apply(runtime)
           if @attrs.blank?
             card
           elsif @attrs.size == 1

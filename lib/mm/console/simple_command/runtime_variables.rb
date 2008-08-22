@@ -8,6 +8,9 @@ module MM
           end
 
           def execute(runtime)
+            if runtime[@name].kind_of?(SelectingList)
+              runtime[:list] = runtime[@name]
+            end
             runtime[@name]
           end
         end
