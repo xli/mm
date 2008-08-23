@@ -129,7 +129,7 @@ else
 
     #### Which files are to be included in this gem?  Everything!  (Except SVN directories.)
 
-    s.files = PKG_FILES.to_a.delete_if {|item| item.include?(".svn")}
+    # s.files = PKG_FILES.to_a.delete_if {|item| item.include?(".svn")}
 
     #### Load-time details: library and application (you will need one or both).
 
@@ -141,7 +141,7 @@ else
 
     #### Documentation and testing.
 
-    s.has_rdoc = true
+    s.has_rdoc = false
     #s.extra_rdoc_files = rd.rdoc_files.reject { |fn| fn =~ /\.rb$/ }.to_a
     #s.rdoc_options = rd.options
 
