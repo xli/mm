@@ -1,21 +1,13 @@
 module MM
   module Console
-    class SelectingList
+    class SelectingList < Delegator
       def initialize(list, handle_item_class)
         @list = list
         @handle_item_class = handle_item_class
       end
       
-      def <<(item)
-        @list << item
-      end
-      
-      def uniq!
-        @list.uniq!
-      end
-      
-      def delete(item)
-        @list.delete(item)
+      def __getobj__
+        @list
       end
       
       def select_by_index(runtime, index)
