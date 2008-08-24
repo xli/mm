@@ -1,3 +1,4 @@
+require 'mm/utils'
 require 'mm/repository'
 require 'mm/resource'
 require 'mm/api'

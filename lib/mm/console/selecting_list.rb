@@ -22,6 +22,10 @@ module MM
         @list.delete(item)
       end
       
+      def size
+        @list.size
+      end
+      
       def select_by_index(runtime, index)
         if @list[index]
           @handle_item_class.new(@list[index]).execute(runtime)

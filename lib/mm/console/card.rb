@@ -3,6 +3,8 @@ module MM
     class Card
       
       class Context
+        include SimpleHashable
+
         def initialize(card)
           @card = card
         end

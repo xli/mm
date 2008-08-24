@@ -95,4 +95,16 @@ Expectations do
     @runtime[:context].to_s
   end
 
+  expect 2 do
+    @runtime = $helper.runtime
+    @runtime[:api][:find_card_by_number, 1] = $helper.card(:number => 1, :name => 'first card', :card_type_name => 'story')
+    @runtime[:api][:find_cards, {:view => 'My Work'}] = [$helper.card(:number => 1, :name => 'first card', :card_type_name => 'story')]
+    processor = MM::Console::Processor.new(@runtime)
+    processor.process('view My Work')
+    processor.process('#1')
+    processor.process('view My Work')
+    processor.process('#1')
+    processor.process('view My Work')
+    @runtime[:history].size
+  end
 end

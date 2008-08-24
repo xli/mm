@@ -3,6 +3,8 @@ module MM
     class View
       
       class Context
+        include SimpleHashable
+        
         def initialize(view_name, cards)
           @view_name = view_name
           @cards = cards
@@ -18,7 +20,7 @@ module MM
         end
         
         def to_s
-          "#{@view_name}"
+          @view_name.to_s
         end
       end
       
