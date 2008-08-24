@@ -10,6 +10,10 @@ module MM
         @list << item
       end
       
+      def unshift(item)
+        @list.unshift(item)
+      end
+      
       def uniq!
         @list.uniq!
       end

@@ -23,7 +23,7 @@ module MM
           def initialize(detail)
             @detail = detail
             @status = []
-            @status << {:desc => 'todo', :next_action => 'start_work', :at => Time.now, :color => :normal}
+            @status << {:desc => 'todo', :next_action => 'start_work', :at => Time.now, :color => :normal_yellow}
           end
           
           def next(runtime)
@@ -31,11 +31,15 @@ module MM
           end
           
           def start_work(runtime)
-            @status << {:desc => 'working on', :next_action => 'complete', :at => Time.now, :color => :red}
+            @status << {:desc => 'working on', :next_action => 'complete', :at => Time.now, :color => :bold_red}
+            delete(runtime)
+            runtime[:todo].unshift(self)
           end
           
           def complete(runtime)
-            @status << {:desc => 'completed', :next_action => 'delete', :at => Time.now, :color => :gray}
+            @status << {:desc => 'completed', :next_action => 'delete', :at => Time.now, :color => :normal_gray}
+            delete(runtime)
+            runtime[:todo] << (self)
           end
           
           def delete(runtime)
@@ -44,19 +48,16 @@ module MM
           
           def to_s
             st = @status.last
-            send(st[:color] || :normal, "#{st[:next_action].titleize}: #{@detail}")
+            send(st[:color] || :normal_yellow, "#{st[:next_action].titleize}: #{@detail}")
           end
           
-          def normal(msg)
-            "\e[#{FONT_STYLES[:bold]};#{COLORS[:yellow]}m#{msg}\e[0m"
-          end
-          
-          def red(msg)
-            "\e[#{FONT_STYLES[:bold]};#{COLORS[:red]}m#{msg}\e[0m"
-          end
-
-          def gray(msg)
-            "\e[#{FONT_STYLES[:normal]};#{COLORS[:gray]}m#{msg}\e[0m"
+          def method_missing(method, *args)
+            style, color = method.to_s.split('_').collect{|n| n.to_sym}
+            if style && color
+              "\e[#{FONT_STYLES[style]};#{COLORS[color]}m#{args.join}\e[0m"
+            else
+              super
+            end
           end
         end
         
@@ -75,7 +76,7 @@ module MM
 
         def execute(runtime)
           unless @todo.blank?
-            todo_list(runtime) << Task.new(@todo)
+            todo_list(runtime).unshift Task.new(@todo)
           end
           runtime[:list] = todo_list(runtime)
         end
