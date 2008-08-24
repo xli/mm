@@ -3,7 +3,6 @@ require 'mm/resource'
 require 'mm/api'
 
 require 'mm/command/console'
-require 'mm/command/help'
 
 require 'mm/mml.tab.rb'
 require 'mm/console/selecting_list'

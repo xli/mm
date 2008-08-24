@@ -14,10 +14,16 @@ module MM
         end
         
         class Task
+          COLORS = {
+            :red => 31, :green => 32, :yellow => 33, :blue => 34, :pink => 35, :sky_blue => 36, :gray => 90,
+            :b_red => 41, :b_green => 42, :b_yellow => 43, :b_blue => 44, :b_pink => 45, :b_sky_blue => 46
+          }
+          FONT_STYLES = {:normal => 0, :bold => 1, :white => 2, :underscore => 4, :flash => 5, :inverse => 7}
+
           def initialize(detail)
             @detail = detail
             @status = []
-            @status << {:desc => 'todo', :next_action => 'start_work', :at => Time.now}
+            @status << {:desc => 'todo', :next_action => 'start_work', :at => Time.now, :color => :normal}
           end
           
           def next(runtime)
@@ -25,11 +31,11 @@ module MM
           end
           
           def start_work(runtime)
-            @status << {:desc => 'working on', :next_action => 'complete', :at => Time.now}
+            @status << {:desc => 'working on', :next_action => 'complete', :at => Time.now, :color => :red}
           end
           
           def complete(runtime)
-            @status << {:desc => 'completed', :next_action => 'delete', :at => Time.now}
+            @status << {:desc => 'completed', :next_action => 'delete', :at => Time.now, :color => :gray}
           end
           
           def delete(runtime)
@@ -37,7 +43,20 @@ module MM
           end
           
           def to_s
-            "#{@status.last[:next_action].titleize}: #{@detail}"
+            st = @status.last
+            send(st[:color] || :normal, "#{st[:next_action].titleize}: #{@detail}")
+          end
+          
+          def normal(msg)
+            "\e[#{FONT_STYLES[:bold]};#{COLORS[:yellow]}m#{msg}\e[0m"
+          end
+          
+          def red(msg)
+            "\e[#{FONT_STYLES[:bold]};#{COLORS[:red]}m#{msg}\e[0m"
+          end
+
+          def gray(msg)
+            "\e[#{FONT_STYLES[:normal]};#{COLORS[:gray]}m#{msg}\e[0m"
           end
         end
         
