@@ -1,6 +1,6 @@
 # Rakefile for MM        -*- ruby -*-
 
-# Copyright 2007 by Li Xiao (swing1979@gmail.com)
+# Copyright 2007 by Li Xiao (iam@li-xiao.com)
 # All rights reserved.
 
 $LOAD_PATH.unshift File.expand_path(File.dirname(__FILE__) + '/lib')
@@ -148,7 +148,7 @@ else
     #### Author and project details.
 
     s.author = "Li Xiao"
-    s.email = "swing1979@gmail.com"
+    s.email = "iam@li-xiao.com"
     s.homepage = "http://mm.rubyforge.org"
     s.rubyforge_project = "mm"
 #     if ENV['CERT_DIR']
