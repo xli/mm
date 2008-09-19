@@ -70,7 +70,7 @@ module MM
           "manage your todo list based on context"
         end
         
-        def initialize(todo=nil)
+        def initialize(todo='')
           @todo = todo.gsub(/^todo/, '').strip
         end
 

@@ -18,6 +18,10 @@ module MM
           @card
         end
         
+        def open(runtime)
+          runtime[:api].execute_cmd("open #{File.join(runtime[:site], 'cards', @card.number.to_s).inspect}")
+        end
+        
         #don't use Delegator, which has problem with store this object instance as yaml
         def method_missing(method, *args, &block)
           if @card.respond_to?(method)
@@ -35,7 +39,7 @@ module MM
       attr_reader :number
       
       def initialize(number, attrs=nil)
-        @number = number
+        @number = number.is_a?(String) ? number.to_i : number
         @attrs = attrs
       end
       

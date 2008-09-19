@@ -19,6 +19,10 @@ module MM
           runtime[:list] = SelectingList.new(@cards, MM::Console::Card)
         end
         
+        def open(runtime)
+          runtime[:api].execute_cmd("open #{File.join(runtime[:site], "cards?view=#{@view_name}").inspect}")
+        end
+        
         def to_s
           @view_name.to_s
         end
