@@ -23,7 +23,8 @@ module MM
         return if input.blank?
         exit(0) if input =~ /^(exit|quit)$/i
         begin
-          puts MM::Console::Processor.new(@runtime).process(input)
+          ret = MM::Console::Processor.new(@runtime).process(input)
+          puts ret unless ret.blank?
         rescue
           puts "mm: #{$!.message}"
           if @runtime[:debug].to_s == 'true'

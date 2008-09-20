@@ -36,9 +36,10 @@ module MM
 
       def create_transition_execution(attrs)
         init(Resource::Mingle::TransitionExecution)
-        te = Resource::Mingle::TransitionExecution.create(attrs)
-        unless te.errors.empty?
-          raise te.errors.full_messages.join("; ")
+        returning Resource::Mingle::TransitionExecution.create(attrs) do |te|
+          unless te.errors.empty?
+            raise te.errors.full_messages.join("; ")
+          end
         end
       end
     end

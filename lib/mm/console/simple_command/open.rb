@@ -9,7 +9,7 @@ module MM
         end
 
         def self.doc(runtime)
-          "open card, view or your context(card or view) in your default browser."
+          "Open card, view or your context(card or view) in your default browser. This command sends 'open 'http:/project_url' to your Terminal, which may not work in Windows."
         end
 
         def initialize(input='')
