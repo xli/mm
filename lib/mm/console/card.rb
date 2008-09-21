@@ -18,6 +18,10 @@ module MM
           @card
         end
         
+        def execute_transition(name, runtime)
+          Transition.new(:command => name, :card_number => @card.number).execute(runtime)
+        end
+        
         def open(runtime)
           ret = runtime[:api].execute_cmd("open #{File.join(runtime[:site], 'cards', @card.number.to_s).inspect}")
           ret.first == 0 ? nil : ret.last

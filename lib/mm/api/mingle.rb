@@ -41,6 +41,29 @@ module MM
           raise te.errors.full_messages.join("; ")
         end
       end
+      
+      #return transition names array, e.g. ['fix', 'close']
+      def card_transitions(card)
+        require 'net/http'
+        require 'rexml/document'
+
+        uri = URI.parse(File.join(@runtime[:site], 'cards', card.number.to_s))
+        returning [] do |transition_names|
+          Net::HTTP.start(uri.host, uri.port) do |http|
+            req = Net::HTTP::Get.new(uri.request_uri)
+            req.basic_auth *uri.userinfo.split(':')
+            response = http.request(req)
+            r = /<span style='padding-left:0.5em;text-decoration:underline'>([^<]+)<\/span>/
+            doc = response.body
+            while m = doc.match(r)
+              doc = doc[m.offset(0).last..-1]
+              transition_names << m.captures
+              break if doc.nil?
+            end
+          end
+          transition_names.flatten!
+        end
+      end
     end
   end
 end

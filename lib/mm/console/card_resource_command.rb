@@ -1,5 +1,16 @@
 module MM
   module Console
+    
+    class CardTransition
+      def initialize(transition_name)
+        @transition_name = transition_name
+      end
+      
+      def execute(runtime)
+        runtime[:context].execute_transition(@transition_name, runtime)
+      end
+    end
+    
     class CardResourceCommand
       def initialize(command, card_resource)
         @command = command
@@ -8,6 +19,8 @@ module MM
       
       def execute(runtime)
         case
+        when @command =~ /^transitions$/
+          runtime[:list] = MM::Console::SelectingList.new(runtime[:api].card_transitions(@card_resource), MM::Console::CardTransition)
         when @command =~ /^properties$/
           (runtime[:api].property_definitions || []).inject({}) do |map, prop|
             if value = CardResourceCommand.new(prop.column_name, @card_resource).execute(runtime)
