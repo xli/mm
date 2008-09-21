@@ -19,7 +19,8 @@ module MM
         end
         
         def open(runtime)
-          runtime[:api].execute_cmd("open #{File.join(runtime[:site], 'cards', @card.number.to_s).inspect}")
+          ret = runtime[:api].execute_cmd("open #{File.join(runtime[:site], 'cards', @card.number.to_s).inspect}")
+          ret.first == 0 ? nil : ret.last
         end
         
         #don't use Delegator, which has problem with store this object instance as yaml

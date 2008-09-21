@@ -1,7 +1,7 @@
 require File.dirname(__FILE__) + '/expectation_helper'
 
 Expectations do
-  expect [0, 'open card 1'] do
+  expect nil do
     @runtime = $helper.runtime
     @runtime[:api][:find_card_by_number, 1] = $helper.card(:number => 1, :name => 'first card', :card_type_name => 'story')
     @runtime[:api][:execute_cmd, "open \"http://login:pass@domain.com/projects/mingle/cards/1\""] = [0, "open card 1"]
@@ -11,13 +11,23 @@ Expectations do
     processor.process('open')
   end
   
-  expect [0, 'open card 1'] do
+  expect nil do
     @runtime = $helper.runtime
     @runtime[:api][:find_card_by_number, 1] = $helper.card(:number => 1, :name => 'first card', :card_type_name => 'story')
     @runtime[:api][:execute_cmd, "open \"http://login:pass@domain.com/projects/mingle/cards/1\""] = [0, "open card 1"]
     processor = MM::Console::Processor.new(@runtime)
     processor.process('site = \'http://login:pass@domain.com/projects/mingle\'')
     processor.process('open #1')
+  end
+  
+  expect 'cant find open command' do
+    @runtime = $helper.runtime
+    @runtime[:api][:find_card_by_number, 1] = $helper.card(:number => 1, :name => 'first card', :card_type_name => 'story')
+    @runtime[:api][:execute_cmd, "open \"http://login:pass@domain.com/projects/mingle/cards/1\""] = [1, "cant find open command"]
+    processor = MM::Console::Processor.new(@runtime)
+    processor.process('site = \'http://login:pass@domain.com/projects/mingle\'')
+    processor.process('#1')
+    processor.process('open')
   end
 
   expect 'story 1' do
@@ -32,7 +42,7 @@ Expectations do
     @runtime[:context].to_s
   end
 
-  expect [0, 'open view My Work'] do
+  expect nil do
     @runtime = $helper.runtime
     @runtime[:api][:find_cards, {:view => 'My Work'}] = [$helper.card(:number => 1, :name => 'first card', :card_type_name => 'story')]
     @runtime[:api][:execute_cmd, "open \"http://login:pass@domain.com/projects/mingle/cards?view=My Work\""] = [0, "open view My Work"]
@@ -42,10 +52,19 @@ Expectations do
     processor.process('open')
   end
   
-  expect [0, 'open view My Work'] do
+  expect nil do
     @runtime = $helper.runtime
     @runtime[:api][:find_cards, {:view => 'My Work'}] = [$helper.card(:number => 1, :name => 'first card', :card_type_name => 'story')]
     @runtime[:api][:execute_cmd, "open \"http://login:pass@domain.com/projects/mingle/cards?view=My Work\""] = [0, "open view My Work"]
+    processor = MM::Console::Processor.new(@runtime)
+    processor.process('site = \'http://login:pass@domain.com/projects/mingle\'')
+    processor.process('open My Work')
+  end
+  
+  expect 'cant find open command' do
+    @runtime = $helper.runtime
+    @runtime[:api][:find_cards, {:view => 'My Work'}] = [$helper.card(:number => 1, :name => 'first card', :card_type_name => 'story')]
+    @runtime[:api][:execute_cmd, "open \"http://login:pass@domain.com/projects/mingle/cards?view=My Work\""] = [1, "cant find open command"]
     processor = MM::Console::Processor.new(@runtime)
     processor.process('site = \'http://login:pass@domain.com/projects/mingle\'')
     processor.process('open My Work')

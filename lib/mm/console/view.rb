@@ -20,7 +20,8 @@ module MM
         end
         
         def open(runtime)
-          runtime[:api].execute_cmd("open #{File.join(runtime[:site], "cards?view=#{@view_name}").inspect}")
+          ret = runtime[:api].execute_cmd("open #{File.join(runtime[:site], "cards?view=#{@view_name}").inspect}")
+          ret.first == 0 ? nil : ret.last
         end
         
         def to_s
