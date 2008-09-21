@@ -3,42 +3,55 @@
 Send suggestions for this list to iam@li-xiao.com
 
 === To Do
-  #  help mode
-  !  refresh cached objects
-  #  change workspace
-  !    #number => card workspace
-  !    transition name #number => card workspace
-  !    view name => view workspace
-  #    view filters => view workspace
-  #    view by mql
-  #  project
-  !    set runtime variable
-  !    variable list
-  !    show variable
-  #    team
-  #  card
-  #    ?transitions
-  !    transition
-  ?    attributes
-  !    properties
-  !       card property
-  !       user property
-          date property
-  !    svn commit
-  #    update card attribute
-  #    create card
-  #  view
-  #    list
-  #    next
-  #    previous
-  #    page number
-  !    select card from list
-  #  views
-  !    select view from list
-  #  tabs
-  !    select tab from list
-  #
-  # better error message for running transition without card context
-  # integrate with stdout of sub process
+  gemspec
+  help doc
+  
+  help mode
+  change workspace
+    view filters => view workspace
+    view by mql
+  project
+    team
+  card
+    attributes
+    properties
+       date property
+    update card attribute
+    create card
+  view
+    list
+    next
+    previous
+    page number
+  better error message for running transition without card context
+  integrate with stdout of sub process
+  reload command
+  remove completed task after one day
+  should raise error when commit with invalid transition script
+
+=== DONE
+  refresh cached objects
+  tabs
+    select tab from list
+  views
+    select view from list
+  view
+    select card from list
+  change workspace
+    #number => card workspace
+    transition name #number => card workspace
+    view name => view workspace
+  project
+    set runtime variable
+    variable list
+    show variable
+  card
+    transitions
+    transition
+    properties
+      card property
+      user property
+    svn commit
+
 
 (moved DONE list to CHANGES file)

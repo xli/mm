@@ -2,44 +2,34 @@
 
 Supporting MM version: 0.0.x
 
-MM is a Mingle(http://studios.thoughtworks.com/) development console based on Mingle REST API.
+MM is a development console integrating with Mingle(http://studios.thoughtworks.com/) by Mingle REST API.
 
-MM has the following features integrating with Mingle:
+MM has the following features, some of which is integrating with Mingle:
 
 * run transition
 * view card list | card
 * commit code with running transition
+* todo list
+* card/view context
+* do your job by selecting item from list
 
 == Download
 
 The latest version of MM can be found at
 
-* http://rubyforge.org/projects/mm/
+* http://github.com/xli/mm/tree
 
 == Installation
 
-=== Normal Installation
-
-You can install MM with the following command.
-
-  % ruby install.rb
-
-from its distribution directory.
-
 === GEM Installation
 
-Download and install MM with the following.
+Run the following if you haven't already:
 
-   gem install --remote mm
+  gem sources -a http://gems.github.com
 
-== Online Resources
+Install the gem:
 
-== MM References
-
-* MM Project Page: http://rubyforge.org/projects/mm
-* MM API Documents: http://mm.rubyforge.org
-
-Type "mm help" for an up-to-date help doc.
+  sudo gem install xli-mm
 
 == License
 
@@ -47,19 +37,17 @@ MM is available under an Apache License Version 2.0.
 
 == Support
 
-The MM homepage is http://mm.rubyforge.org.  You can find the MM
-RubyForge page at http://rubyforge.org/projects/mm.
+The MM homepage is http://github.com/xli/mm/tree.
 
 Feel free to submit commits or feature requests.  If you send a patch,
 remember to update the corresponding unit tests.  If fact, I prefer
 new feature to be submitted in the form of new unit tests.
 
-For other information, feel free to ask on the ruby-talk mailing list or contact
-mailto:iam@li-xiao.com.
+For other information, feel free to contact mailto:iam@li-xiao.com.
 
 == Usage
 
-Type "mm" for an up-to-date help doc.
+Type "mm" to launch the console.
 
 = Other stuff
 
