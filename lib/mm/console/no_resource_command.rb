@@ -14,16 +14,7 @@ module MM
             Console::SimpleCommand::RuntimeVariables::Value.new(@command.to_sym).execute(runtime)
           end
         else
-          if @command && !@command.split.blank?
-            which = runtime[:api].execute_cmd("which #{@command.split.first.inspect}")
-            if which && which.first == 0
-              runtime[:api].execute_cmd(@command)
-            else
-              raise "What's '#{@command}' mean?"
-            end
-          else
-            #ignore empty command
-          end
+          SystemCmd.execute_as_cmd(runtime, @command)
         end
       end
 

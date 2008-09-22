@@ -23,7 +23,7 @@ Expectations do
     @runtime[:context].to_s
   end
   
-  expect RuntimeError do
+  expect nil do
     @runtime = $helper.runtime
     processor = MM::Console::Processor.new(@runtime)
     processor.process('#')

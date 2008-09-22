@@ -3,6 +3,16 @@ module MM
     class SystemCmd
       SCRIPT_REGEX = /\[([^\]]+)\]/
       
+      def self.execute_as_cmd(runtime, command)
+        return if command.blank?
+        which = runtime[:api].execute_cmd("which #{command.split.first.inspect}")
+        if which && which.first == 0
+          SystemCmd.new(command).execute(runtime)
+        else
+          raise "What's '#{command}' mean?"
+        end
+      end
+
       def initialize(command)
         @command = command
       end

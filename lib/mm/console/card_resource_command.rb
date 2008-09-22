@@ -20,7 +20,7 @@ module MM
       def execute(runtime)
         case
         when @command =~ /^transitions$/
-          runtime[:list] = MM::Console::SelectingList.new(runtime[:api].card_transitions(@card_resource), MM::Console::CardTransition)
+          runtime[:list] = MM::Console::SelectingList.new(@card_resource.transitions(runtime), MM::Console::CardTransition)
         when @command =~ /^properties$/
           (runtime[:api].property_definitions || []).inject({}) do |map, prop|
             if value = CardResourceCommand.new(prop.column_name, @card_resource).execute(runtime)
@@ -45,8 +45,10 @@ module MM
           value
         when runtime[@command.to_sym]
           NoResourceCommand.new(@command).execute(runtime)
-        else
+        when @card_resource.transitions(runtime).include?(@command)
           Transition.new(:command => @command, :card_number => @card_resource.number).execute(runtime)
+        else
+          SystemCmd.execute_as_cmd(runtime, @command)
         end
       end
       

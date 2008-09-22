@@ -22,6 +22,10 @@ module MM
 
 SUMMARIZATION
         end
+
+        def transitions(runtime)
+          @transitions ||= runtime[:api].card_transitions(self) || []
+        end
       end
 
       class PropertyDefinition < ActiveResource::Base

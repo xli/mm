@@ -39,12 +39,25 @@ module MM
         end
       end
       
+      def parse_with_rescuing_system_cmd(input)
+        parse(input)
+      rescue
+        if @runtime[:debug].to_s == 'true'
+          puts '---------- debug -----------'
+          puts "mm: #{$!.message}"
+          puts ''
+          puts $!.backtrace.join("\n")
+          puts ''
+        end
+        SystemCmd.new(input)
+      end
+
       def process(input)
         unless @runtime[:context].is_a?(EmptyContext)
           @runtime[:history] << @runtime[:context] 
           @runtime[:history].uniq!
         end
-        mml = parse(input)
+        mml = parse_with_rescuing_system_cmd(input)
         mml.execute(@runtime)
       end
     end
