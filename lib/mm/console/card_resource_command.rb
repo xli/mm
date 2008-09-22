@@ -27,7 +27,7 @@ module MM
               map[prop.name.to_sym] = value
             end
             map
-          end
+          end.to_yaml
         when @card_resource.respond_to?(@command)
           @card_resource.send(@command)
         when prop = find_property_definition(runtime, @command)

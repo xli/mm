@@ -89,7 +89,7 @@ Expectations do
     processor.process('#1 iteration')
   end
   
-  expect :status => 'new' do
+  expect({:status=>"new"}.to_yaml) do
     @runtime = $helper.runtime
     @runtime[:api][:find_card_by_number, 1] = $helper.card(:number => 1, :name => 'first card', :card_type_name => 'story', :cp_status => 'new', :cp_owner_user_id => nil, :description => 'card description')
     @runtime[:api][:property_definitions] = [
@@ -100,12 +100,23 @@ Expectations do
     processor.process('properties')
   end
 
-  expect :status => 'new' do
+  expect({:status=>"new"}.to_yaml) do
     @runtime = $helper.runtime
     @runtime[:api][:find_card_by_number, 1] = $helper.card(:number => 1, :name => 'first card', :card_type_name => 'story', :cp_status => 'new', :cp_owner_user_id => nil, :description => 'card description')
     @runtime[:api][:property_definitions] = [
       $helper.property_definition(:name => 'status', :column_name => 'cp_status', :data_type => 'string'),
       $helper.property_definition(:name => 'owner', :column_name => 'cp_owner_user_id', :data_type => 'user')]
+    processor = MM::Console::Processor.new(@runtime)
+    processor.process('#1 properties')
+  end
+
+  expect({:status=>"new", :pp => 'pp1'}.to_yaml) do
+    @runtime = $helper.runtime
+    @runtime[:api][:find_card_by_number, 1] = $helper.card(:number => 1, :name => 'first card', :card_type_name => 'story', :cp_status => 'new', :cp_pp => 'pp1', :description => 'card description')
+    @runtime[:api][:property_definitions] = [
+      $helper.property_definition(:name => 'status', :column_name => 'cp_status', :data_type => 'string'),
+      $helper.property_definition(:name => 'pp', :column_name => 'cp_pp', :data_type => 'string')
+    ]
     processor = MM::Console::Processor.new(@runtime)
     processor.process('#1 properties')
   end
