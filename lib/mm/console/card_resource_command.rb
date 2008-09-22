@@ -45,7 +45,7 @@ module MM
           value
         when runtime[@command.to_sym]
           NoResourceCommand.new(@command).execute(runtime)
-        when @card_resource.transitions(runtime).include?(@command)
+        when @card_resource.transitions(runtime).any?{|t| t.to_s.downcase == @command.to_s.downcase}
           Transition.new(:command => @command, :card_number => @card_resource.number).execute(runtime)
         else
           SystemCmd.execute_as_cmd(runtime, @command)
