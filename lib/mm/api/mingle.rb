@@ -45,11 +45,13 @@ module MM
       #return transition names array, e.g. ['fix', 'close']
       def card_transitions(card)
         require 'net/http'
-        require 'rexml/document'
+        require 'net/https'
 
         uri = URI.parse(File.join(@runtime[:site], 'cards', card.number.to_s))
         returning [] do |transition_names|
-          Net::HTTP.start(uri.host, uri.port) do |http|
+          http = Net::HTTP.new(uri.host, uri.port)
+          http.use_ssl = true if uri.scheme == "https"  # enable SSL/TLS
+          http.start do
             req = Net::HTTP::Get.new(uri.request_uri)
             req.basic_auth *uri.userinfo.split(':')
             response = http.request(req)
@@ -61,6 +63,7 @@ module MM
               break if doc.nil?
             end
           end
+          transition_names.uniq!
           transition_names.flatten!
         end
       end
