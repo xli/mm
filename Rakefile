@@ -117,7 +117,7 @@ else
   File.open(File.dirname(__FILE__) + '/mm.gemspec') do |f|
     data = f.read
     spec = nil
-    Thread.new { spec = eval("$SAFE = 1\n#{data}") }.join
+    Thread.new { spec = eval("$SAFE = 3\n#{data}") }.join
     package_task = Rake::GemPackageTask.new(spec) do |pkg|
       #pkg.need_zip = true
       #pkg.need_tar = true
