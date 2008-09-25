@@ -75,8 +75,12 @@ module MM
         end
         
         def context(runtime)
-          %{Context is something MM remembered for you. There are 2 kinds of context, one is card, another is view. Context will be displayed as prompt, so that you can know what's context you have currently for you to do your work quickly. For example, if your context is a card, you can simply type in 'open' to open the card in your default browser.
+          %{Context is something MM remembered for you. There are 2 kinds of context, one is card, another is view. Context will be displayed as prompt, so that you can know what's context you have currently. For example, if your context is a card, you can simply type in 'open' to open the card in your default browser.
 }
+        end
+        
+        def variables(runtime)
+          "MM is built in runtime variables, type 'v' to #{Console::SimpleCommand::RuntimeVariables.doc(runtime)}"
         end
       end
 

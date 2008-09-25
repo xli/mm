@@ -21,7 +21,7 @@ module MM
         end
 
         def self.doc(runtime)
-          "show existed runtime variables\n   How to set a variable? example: fixed = 'complete fix'\n   How to unset a variable? example: fixed = ''"
+          "show existed runtime variables\n   How to set a variable? example: fixed = 'complete fix'\n   How to unset a variable? example: fixed = ''\n   MM stores most of stuff as variables so that you can easily access them."
         end
 
         def execute(runtime)

@@ -6,12 +6,14 @@ MM is a development console integrating with Mingle(http://studios.thoughtworks.
 
 MM has the following features, some of which is integrating with Mingle:
 
-* run transition
+* run transition on card
 * view card list | card
 * commit code with running transition
-* todo list
+* simple todo tasks tool
 * card/view context
+* remember your context history
 * do your job by selecting item from list
+* integrating with terminal console: run console command directly
 
 == Download
 
@@ -37,7 +39,6 @@ Install the gem:
   % mm: <b>Complete Fix</b> is not applicable to Card #5079.
   % 
   % mingle> story 5079> transitions
-  % warning: peer certificate won't be verified in this SSL session
   % 
   % 0) add story to internal release theme
   % 1) Complete Development
