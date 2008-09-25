@@ -82,6 +82,18 @@ module MM
         def variables(runtime)
           "MM is built in runtime variables, type 'v' to #{Console::SimpleCommand::RuntimeVariables.doc(runtime)}"
         end
+        
+        def integrating_with_mingle(runtime)
+          %{You need setup a variable in the MM console named site for your mingle project url with your login name and password, see the following example log how to setup it:
+  >>>
+  mm, version 0.0.3
+  Type 'help' for usage
+  > > site='http://your_login:your_password@your_mingle_server.com/projects/your_project_identifier'
+  http://your_login:your_password@your_mingle_server.com/projects/your_project_identifier
+  your_project_identifier> >
+
+}
+        end
       end
 
       class Section
