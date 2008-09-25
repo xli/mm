@@ -30,6 +30,39 @@ Run the following if you haven't already:
 Install the gem:
 
   sudo gem install xli-mm
+  
+== Example Log
+
+  % mingle> story 5079> fix
+  % mm: <b>Complete Fix</b> is not applicable to Card #5079.
+  % 
+  % mingle> story 5079> transitions
+  % warning: peer certificate won't be verified in this SSL session
+  % 
+  % 0) add story to internal release theme
+  % 1) Complete Development
+  % 2) move to 200
+  % 
+  % ! > Type index number to select item from list.
+  % 
+  % mingle> story 5079> 1
+  % mingle> story 5079> #5079
+  % #5079 Allow admin to update transition only property values - but preserve the use of automated transitions on the grid view
+  % mingle> story 5079> properties
+  % --- 
+  % :"pre-development estimate": "1"
+  % :"analysis started on": 2008-09-17
+  % :"pre-release estimate": "2"
+  % :"dev completed on": 2008-09-23
+  % :"dev started on": 2008-09-22
+  % :"Release Priority": must
+  % :"internal release": 6615
+  % :"story status": ready for signoff
+  % :release: "2.1"
+  % :"added to scope on": 2008-09-17
+  % :"internal release theme": 6693
+  % :"analysis completed on": 2008-09-18
+  % mingle> story 5079> 
 
 == License
 

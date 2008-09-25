@@ -3,7 +3,6 @@
 Send suggestions for this list to iam@li-xiao.com
 
 === To Do
-  gemspec
   help doc
   
   help mode
@@ -16,6 +15,8 @@ Send suggestions for this list to iam@li-xiao.com
     attributes
     properties
        date property
+       user property
+       card property
     update card attribute
     create card
   view

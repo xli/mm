@@ -114,52 +114,14 @@ PKG_FILES.exclude(%r{doc/example/main$})
 if ! defined?(Gem)
   puts "Package Target requires RubyGEMs"
 else
-  spec = Gem::Specification.new do |s|
-    
-    #### Basic information.
-
-    s.name = 'mm'
-    s.version = $package_version
-    s.summary = "MM is a Mingle(http://studios.thoughtworks.com/) development console."
-
-    #### Dependencies and requirements.
-
-    s.add_dependency('activeresource', '> 2.0.1')
-    #s.requirements << ""
-
-    #### Which files are to be included in this gem?  Everything!  (Except SVN directories.)
-
-    s.files = PKG_FILES.to_a.delete_if {|item| item.include?(".svn")}
-
-    #### Load-time details: library and application (you will need one or both).
-
-    s.require_path = 'lib'                         # Use these for libraries.
-
-    s.bindir = "bin"                               # Use these for applications.
-    s.executables = ["mm"]
-    s.default_executable = "mm"
-
-    #### Documentation and testing.
-
-    s.has_rdoc = false
-    #s.extra_rdoc_files = rd.rdoc_files.reject { |fn| fn =~ /\.rb$/ }.to_a
-    #s.rdoc_options = rd.options
-
-    #### Author and project details.
-
-    s.author = "Li Xiao"
-    s.email = "iam@li-xiao.com"
-    s.homepage = "http://mm.rubyforge.org"
-    s.rubyforge_project = "mm"
-#     if ENV['CERT_DIR']
-#       s.signing_key = File.join(ENV['CERT_DIR'], 'gem-private_key.pem')
-#       s.cert_chain  = [File.join(ENV['CERT_DIR'], 'gem-public_cert.pem')]
-#     end
-  end
-
-  package_task = Rake::GemPackageTask.new(spec) do |pkg|
-    #pkg.need_zip = true
-    #pkg.need_tar = true
+  File.open(File.dirname(__FILE__) + '/mm.gemspec') do |f|
+    data = f.read
+    spec = nil
+    Thread.new { spec = eval("$SAFE = 1\n#{data}") }.join
+    package_task = Rake::GemPackageTask.new(spec) do |pkg|
+      #pkg.need_zip = true
+      #pkg.need_tar = true
+    end
   end
 end
 
